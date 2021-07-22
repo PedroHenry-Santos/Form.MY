@@ -1,0 +1,27 @@
+{
+  "name": "Boilerplate NextJS",
+  "short_name": "NextJS",
+  "icons": [
+    {
+      "src": "/img/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/img/icon-256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "background_color": "#5e60ce",
+  "description": "Boilerplate utilizando NextJS, React, Typescript, styled-components",
+  "start_url": "/",
+  "display": "fullscreen",
+  "theme_color": "#5e60ce"
+}
