@@ -7,7 +7,7 @@ type ButtonComponentProps = {
   fontSize?: string;
   isLoading?: boolean;
   h?: number;
-  onClick?: () => void;
+  onClick?: (e: any) => void;
   type?: 'button' | 'submit' | 'reset';
 };
 

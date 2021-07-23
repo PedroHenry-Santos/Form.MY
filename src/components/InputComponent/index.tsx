@@ -11,12 +11,16 @@ type InputComponentProps = {
   id: string;
   name: string;
   isRequired?: boolean;
+  value: string;
+  onChange?: (e: React.ChangeEvent<any>) => void;
 };
 
 export const InputComponent: React.FC<InputComponentProps> = ({
   id,
   name,
-  isRequired
+  isRequired = false,
+  value,
+  onChange
 }) => {
   return (
     <FormControl
@@ -28,9 +32,12 @@ export const InputComponent: React.FC<InputComponentProps> = ({
       </FormLabel>
       <Input
         id={id}
+        name={id}
         h={12}
         focusBorderColor="green.400"
         fontSize="xl"
+        value={value}
+        onChange={onChange}
         color="gray.800"
         bg="gray.100"
       />
