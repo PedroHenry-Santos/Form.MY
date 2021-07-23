@@ -4,7 +4,11 @@ import { Accordion, Table, Th, Thead, Tr } from '@chakra-ui/react';
 
 import { AccordionComponent } from '../AccordionComponent';
 
-export const TableComponents = () => {
+type TableComponentsProps = {
+  mt: number;
+};
+
+export const TableComponents = ({ mt }: TableComponentsProps) => {
   const data = [
     {
       name: 'Pedro Henrique Viana dos Santos',
@@ -58,14 +62,13 @@ export const TableComponents = () => {
 
   return (
     <>
-      <Table variant="unstyled">
+      <Table variant="unstyled" mt={mt}>
         <Thead>
-          <Tr bg="green.700" color="white">
-            <Th w="10%" />
-            <Th fontSize="md" w="45%" fontWeight="bold">
+          <Tr bg="green.600" color="white">
+            <Th fontSize="md" w="50%" fontWeight="bold">
               Nome
             </Th>
-            <Th fontSize="md" w="45%" fontWeight="bold">
+            <Th fontSize="md" w="50%" fontWeight="bold">
               CPF/CNPJ
             </Th>
           </Tr>

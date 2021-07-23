@@ -45,8 +45,12 @@ export const AccordionComponent = ({ data }: AccordionComponentProps) => {
   } = data;
 
   return (
-    <AccordionItem>
-      <AccordionButton p={0} bg="gray.50">
+    <AccordionItem _hover={{ background: 'gray.100' }}>
+      <AccordionButton
+        p={0}
+        bg="gray.50"
+        _focus={{ border: '2px solid #4FD1C5' }}
+      >
         <Table variant="unstyled" fontWeight="bold">
           <Thead>
             <Tr>
