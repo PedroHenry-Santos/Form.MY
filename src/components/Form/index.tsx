@@ -1,14 +1,17 @@
 import React from 'react';
 
-import { Grid, GridItem } from '@chakra-ui/react';
+import { Grid, GridItem, useDisclosure } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import { verifyDocument } from '../../utils/validation';
 import { ButtonComponent } from '../ButtonComponent';
 import { InputComponent } from '../InputComponent';
+import { ModalComponent } from '../ModalComponent';
 
 export const FormComponent = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const validationSchema = Yup.object({
     name: Yup.string().required('Campo nome é requerido'),
     email: Yup.string()
@@ -192,9 +195,14 @@ export const FormComponent = () => {
         >
           Registrar
         </ButtonComponent>
-        <ButtonComponent bg="yellow" type="reset" onClick={formik.handleReset}>
+        <ButtonComponent bg="yellow" type="reset" onClick={onOpen}>
           Limpar
         </ButtonComponent>
+        <ModalComponent
+          onClose={onClose}
+          isOpen={isOpen}
+          handleReset={formik.handleReset}
+        />
       </Grid>
     </form>
   );
