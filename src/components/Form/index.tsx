@@ -2,12 +2,47 @@ import React from 'react';
 
 import { Grid, GridItem } from '@chakra-ui/react';
 import { useFormik } from 'formik';
+import * as Yup from 'yup';
 
+import { verifyDocument } from '../../utils/validation';
 import { ButtonComponent } from '../ButtonComponent';
 import { InputComponent } from '../InputComponent';
 
 export const FormComponent = () => {
+  const validationSchema = Yup.object({
+    name: Yup.string().required('Campo nome é requerido'),
+    email: Yup.string()
+      .email('Esse não é um e-mail valido')
+      .required('Campo e-mail é requerido'),
+    document: Yup.string()
+      .required('Campo  é requerido')
+      .test('Tamanho', 'É esperado no mínimo 11 dígitos', value => {
+        if (!value || value.replace(/[^0-9]/g, '').length < 11) return false;
+        else return true;
+      })
+      .test('CPF/CNPJ', 'O CPF/CNPJ é invalido', value =>
+        verifyDocument(value)
+      ),
+    fone: Yup.string()
+      .required('Campo telefone é requerido')
+      .test('Tamanho', 'É esperado no mínimo 10 dígitos', value => {
+        if (!value || value.replace(/[^0-9]/g, '').length < 10) return false;
+        else return true;
+      }),
+    cep: Yup.string().test('Tamanho', 'É esperado 8 dígitos', value => {
+      if (!value || value.replace(/[^0-9]/g, '').length < 8) return false;
+      else return true;
+    }),
+    publicPlace: Yup.string(),
+    number: Yup.string(),
+    district: Yup.string(),
+    city: Yup.string().required('Campo cidade é requerido'),
+    state: Yup.string().required('Campo estado é requerido')
+  });
+
   const formik = useFormik({
+    validateOnChange: false,
+    validateOnBlur: true,
     initialValues: {
       name: '',
       email: '',
@@ -20,8 +55,12 @@ export const FormComponent = () => {
       city: '',
       state: ''
     },
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
+    validationSchema: validationSchema,
+    onSubmit: (values, actions) => {
+      setTimeout(() => {
+        alert(JSON.stringify(values, null, 2));
+        actions.setSubmitting(false);
+      }, 1000);
     }
   });
 
@@ -35,6 +74,8 @@ export const FormComponent = () => {
             isRequired={true}
             value={formik.values.name}
             onChange={formik.handleChange}
+            isValid={formik.errors.name ? true : false}
+            message={formik.errors.name}
           />
         </GridItem>
         <GridItem colSpan={{ md: 3 }}>
@@ -44,6 +85,8 @@ export const FormComponent = () => {
             isRequired={true}
             value={formik.values.email}
             onChange={formik.handleChange}
+            isValid={formik.errors.email ? true : false}
+            message={formik.errors.email}
           />
         </GridItem>
         <GridItem colSpan={{ md: 2 }}>
@@ -53,6 +96,8 @@ export const FormComponent = () => {
             isRequired={true}
             value={formik.values.document}
             onChange={formik.handleChange}
+            isValid={formik.errors.document ? true : false}
+            message={formik.errors.document}
           />
         </GridItem>
         <GridItem colSpan={{ md: 2 }}>
@@ -62,6 +107,8 @@ export const FormComponent = () => {
             isRequired={true}
             value={formik.values.fone}
             onChange={formik.handleChange}
+            isValid={formik.errors.fone ? true : false}
+            message={formik.errors.fone}
           />
         </GridItem>
         <GridItem colSpan={{ md: 2 }}>
@@ -70,6 +117,8 @@ export const FormComponent = () => {
             name="CEP"
             value={formik.values.cep}
             onChange={formik.handleChange}
+            isValid={formik.errors.cep ? true : false}
+            message={formik.errors.cep}
           />
         </GridItem>
         <GridItem colSpan={{ md: 4 }}>
@@ -78,6 +127,8 @@ export const FormComponent = () => {
             name="Logradouro"
             value={formik.values.publicPlace}
             onChange={formik.handleChange}
+            isValid={formik.errors.publicPlace ? true : false}
+            message={formik.errors.publicPlace}
           />
         </GridItem>
         <GridItem colSpan={{ md: 1 }}>
@@ -86,6 +137,8 @@ export const FormComponent = () => {
             name="Número"
             value={formik.values.number}
             onChange={formik.handleChange}
+            isValid={formik.errors.number ? true : false}
+            message={formik.errors.number}
           />
         </GridItem>
         <GridItem colSpan={{ md: 2 }}>
@@ -94,6 +147,8 @@ export const FormComponent = () => {
             name="Bairro"
             value={formik.values.district}
             onChange={formik.handleChange}
+            isValid={formik.errors.district ? true : false}
+            message={formik.errors.district}
           />
         </GridItem>
         <GridItem colSpan={{ md: 2 }}>
@@ -103,6 +158,8 @@ export const FormComponent = () => {
             isRequired={true}
             value={formik.values.city}
             onChange={formik.handleChange}
+            isValid={formik.errors.city ? true : false}
+            message={formik.errors.city}
           />
         </GridItem>
         <GridItem colSpan={{ md: 1 }}>
@@ -112,11 +169,17 @@ export const FormComponent = () => {
             isRequired={true}
             value={formik.values.state}
             onChange={formik.handleChange}
+            isValid={formik.errors.state ? true : false}
+            message={formik.errors.state}
           />
         </GridItem>
       </Grid>
       <Grid templateColumns="repeat(2, 1fr)" gap={3}>
-        <ButtonComponent bg="green" type="submit">
+        <ButtonComponent
+          bg="green"
+          type="submit"
+          isLoading={formik.isSubmitting}
+        >
           Registrar
         </ButtonComponent>
         <ButtonComponent bg="yellow" type="reset" onClick={formik.handleReset}>
