@@ -8,14 +8,27 @@ import {
 } from '@chakra-ui/react';
 import Inputmask from 'inputmask';
 
+import { onBlurCep } from '../../utils/onBlurCep';
+
 type InputComponentProps = {
   id: string;
   name: string;
   isRequired?: boolean;
   isValid?: boolean;
+  isDisabled?: boolean;
   value: string;
   message?: string;
   onChange?: (e: React.ChangeEvent<any>) => void;
+  setFieldValue?: (
+    field: string,
+    value: any,
+    shouldValidate?: boolean | undefined
+  ) => void;
+  setFieldError?: (
+    field: string,
+    value: any,
+    shouldValidate?: boolean | undefined
+  ) => void;
 };
 
 export const InputComponent: React.FC<InputComponentProps> = ({
@@ -23,9 +36,12 @@ export const InputComponent: React.FC<InputComponentProps> = ({
   name,
   isRequired = false,
   isValid,
+  isDisabled = false,
   value,
   message,
-  onChange
+  onChange,
+  setFieldValue,
+  setFieldError
 }) => {
   const ref = useRef<HTMLInputElement>(null);
 
@@ -56,6 +72,7 @@ export const InputComponent: React.FC<InputComponentProps> = ({
         {name}
       </FormLabel>
       <Input
+        disabled={isDisabled}
         ref={ref}
         id={id}
         name={id}
@@ -66,6 +83,11 @@ export const InputComponent: React.FC<InputComponentProps> = ({
         onChange={onChange}
         color="gray.800"
         bg="gray.100"
+        autoComplete="off"
+        onBlur={event => {
+          if (setFieldValue && setFieldError)
+            return onBlurCep(event, setFieldValue, setFieldError);
+        }}
       />
       <FormErrorMessage>{message}</FormErrorMessage>
     </FormControl>

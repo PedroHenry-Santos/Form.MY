@@ -65,7 +65,7 @@ export const FormComponent = () => {
   });
 
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <form onSubmit={formik.handleSubmit} autoComplete="off">
       <Grid templateColumns={{ md: 'repeat(5, 1fr)' }} gap={3}>
         <GridItem colSpan={{ md: 5 }}>
           <InputComponent
@@ -119,6 +119,8 @@ export const FormComponent = () => {
             onChange={formik.handleChange}
             isValid={formik.errors.cep ? true : false}
             message={formik.errors.cep}
+            setFieldValue={formik.setFieldValue}
+            setFieldError={formik.setFieldError}
           />
         </GridItem>
         <GridItem colSpan={{ md: 4 }}>
@@ -129,6 +131,9 @@ export const FormComponent = () => {
             onChange={formik.handleChange}
             isValid={formik.errors.publicPlace ? true : false}
             message={formik.errors.publicPlace}
+            isDisabled={
+              formik.values.cep && formik.values.publicPlace ? true : false
+            }
           />
         </GridItem>
         <GridItem colSpan={{ md: 1 }}>
@@ -149,6 +154,9 @@ export const FormComponent = () => {
             onChange={formik.handleChange}
             isValid={formik.errors.district ? true : false}
             message={formik.errors.district}
+            isDisabled={
+              formik.values.cep && formik.values.district ? true : false
+            }
           />
         </GridItem>
         <GridItem colSpan={{ md: 2 }}>
@@ -160,6 +168,7 @@ export const FormComponent = () => {
             onChange={formik.handleChange}
             isValid={formik.errors.city ? true : false}
             message={formik.errors.city}
+            isDisabled={formik.values.cep && formik.values.city ? true : false}
           />
         </GridItem>
         <GridItem colSpan={{ md: 1 }}>
@@ -171,6 +180,7 @@ export const FormComponent = () => {
             onChange={formik.handleChange}
             isValid={formik.errors.state ? true : false}
             message={formik.errors.state}
+            isDisabled={formik.values.cep && formik.values.state ? true : false}
           />
         </GridItem>
       </Grid>
