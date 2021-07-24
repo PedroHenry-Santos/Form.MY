@@ -59,13 +59,19 @@ export const AccordionComponent = ({ data }: AccordionComponentProps) => {
                 fontWeight="normal"
                 fontFamily="Archivo"
                 fontSize="md"
+                px={1}
               >
                 {name}
               </Th>
-              <Th fontWeight="normal" fontFamily="Archivo" fontSize="md">
+              <Th fontWeight="normal" fontFamily="Archivo" fontSize="md" px={1}>
                 {document}
               </Th>
-              <Th d="flex" justifyContent="flex-end" w="-moz-fit-content">
+              <Th
+                d="flex"
+                justifyContent="flex-end"
+                w="-moz-fit-content"
+                mx="auto"
+              >
                 <AccordionIcon />
               </Th>
             </Tr>

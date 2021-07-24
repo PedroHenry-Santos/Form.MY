@@ -1,4 +1,4 @@
-import { ChakraProvider } from '@chakra-ui/react';
+import { Box, ChakraProvider } from '@chakra-ui/react';
 import type { AppProps } from 'next/app';
 import Head from 'next/head';
 
@@ -18,7 +18,9 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
       </Head>
 
       <ChakraProvider theme={theme}>
-        <Component {...pageProps} />
+        <Box d="flex" justifyContent="center" px={10} py={20}>
+          <Component {...pageProps} />
+        </Box>
       </ChakraProvider>
     </>
   );
