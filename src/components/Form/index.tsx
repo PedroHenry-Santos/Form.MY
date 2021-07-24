@@ -221,7 +221,12 @@ export const FormComponent = () => {
         >
           Registrar
         </ButtonComponent>
-        <ButtonComponent bg="yellow" type="reset" onClick={onOpen}>
+        <ButtonComponent
+          bg="yellow"
+          type="reset"
+          onClick={onOpen}
+          isDisabled={!formik.dirty}
+        >
           Limpar
         </ButtonComponent>
         <ModalComponent

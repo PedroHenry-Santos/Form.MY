@@ -9,6 +9,7 @@ type ButtonComponentProps = {
   h?: number;
   onClick?: (e: any) => void;
   type?: 'button' | 'submit' | 'reset';
+  isDisabled?: boolean;
 };
 
 export const ButtonComponent: React.FC<ButtonComponentProps> = ({
@@ -18,7 +19,8 @@ export const ButtonComponent: React.FC<ButtonComponentProps> = ({
   isLoading = false,
   h = 12,
   type = 'button',
-  onClick
+  onClick,
+  isDisabled = false
 }) => {
   return (
     <Button
@@ -35,6 +37,7 @@ export const ButtonComponent: React.FC<ButtonComponentProps> = ({
       w="full"
       justifySelf="center"
       onClick={onClick}
+      disabled={isDisabled}
     >
       {children}
     </Button>
