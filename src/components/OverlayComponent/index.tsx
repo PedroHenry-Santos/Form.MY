@@ -17,6 +17,7 @@ type ModalComponentProps = {
   text: string;
   title: string;
   bg: string;
+  id?: string;
   isOpen: boolean;
   onClose: () => void;
   isLoading?: boolean;
@@ -29,6 +30,7 @@ export const OverlayComponent = ({
   text,
   title,
   bg,
+  id,
   isOpen,
   onClose,
   isLoading,
@@ -74,7 +76,7 @@ export const OverlayComponent = ({
             ml={3}
             isLoading={isLoading}
             onClick={event => {
-              handleFunction(event);
+              !id ? handleFunction(event) : handleFunction(id);
               onClose();
             }}
           >

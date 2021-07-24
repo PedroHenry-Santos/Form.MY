@@ -14,11 +14,13 @@ import {
   Tbody,
   Text,
   Th,
-  Tr
+  Tr,
+  useDisclosure
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 
 import { database } from '../../services/firebase';
+import { OverlayComponent } from '../OverlayComponent';
 
 type AccordionComponentProps = {
   data: {
@@ -37,6 +39,7 @@ type AccordionComponentProps = {
 };
 
 export const AccordionComponent = ({ data }: AccordionComponentProps) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     id,
     name,
@@ -175,11 +178,20 @@ export const AccordionComponent = ({ data }: AccordionComponentProps) => {
               maxW="sm"
               h={12}
               _hover={{ background: 'red.500' }}
-              onClick={() => handleClientDelete(id)}
+              onClick={onOpen}
             >
               Apagar
             </MotionButton>
           </GridItem>
+          <OverlayComponent
+            isOpen={isOpen}
+            onClose={onClose}
+            bg="red"
+            title="Deseja remover cliente?"
+            text="Tem certeza de que deseja excluir o registro do cliente?"
+            id={id}
+            handleFunction={handleClientDelete}
+          />
         </Grid>
       </AccordionPanel>
     </MotionAccordionItem>
