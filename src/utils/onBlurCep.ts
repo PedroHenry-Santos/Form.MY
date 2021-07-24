@@ -1,4 +1,4 @@
-import { FocusEvent } from 'react';
+import { Dispatch, FocusEvent } from 'react';
 
 import Cep from 'cep-promise';
 
@@ -13,7 +13,15 @@ export const onBlurCep = (
     field: string,
     value: any,
     shouldValidate?: boolean | undefined
-  ) => void
+  ) => void,
+  setHaveCep: Dispatch<
+    React.SetStateAction<{
+      publicPlace: boolean;
+      district: boolean;
+      city: boolean;
+      state: boolean;
+    }>
+  >
 ) => {
   const { value } = event.target;
   const cep = value?.replace(/[^0-9]/g, '');
@@ -23,6 +31,12 @@ export const onBlurCep = (
     setFieldValue('city', '');
     setFieldValue('publicPlace', '');
     setFieldValue('state', '');
+    setHaveCep({
+      district: false,
+      city: false,
+      publicPlace: false,
+      state: false
+    });
     return;
   }
 
@@ -33,6 +47,12 @@ export const onBlurCep = (
       setFieldValue('city', '');
       setFieldValue('publicPlace', '');
       setFieldValue('state', '');
+      setHaveCep({
+        district: false,
+        city: false,
+        publicPlace: false,
+        state: false
+      });
       return;
     })
     .then((data: any) => {
@@ -42,6 +62,12 @@ export const onBlurCep = (
         setFieldValue('city', data.city);
         setFieldValue('publicPlace', data.street);
         setFieldValue('state', data.state);
+        setHaveCep({
+          district: data.neighborhood ? true : false,
+          city: data.city ? true : false,
+          publicPlace: data.street ? true : false,
+          state: data.state ? true : false
+        });
       }
       return;
     });

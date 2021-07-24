@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Grid, GridItem, useDisclosure } from '@chakra-ui/react';
 import { useFormik } from 'formik';
@@ -12,6 +12,12 @@ import { ModalComponent } from '../ModalComponent';
 
 export const FormComponent = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [haveCep, setHaveCep] = useState({
+    publicPlace: false,
+    district: false,
+    city: false,
+    state: false
+  });
 
   const validationSchema = Yup.object({
     name: Yup.string().required('Campo nome é requerido'),
@@ -147,6 +153,7 @@ export const FormComponent = () => {
             message={formik.errors.cep}
             setFieldValue={formik.setFieldValue}
             setFieldError={formik.setFieldError}
+            setHaveCep={setHaveCep}
           />
         </GridItem>
         <GridItem colSpan={{ md: 4 }}>
@@ -157,9 +164,7 @@ export const FormComponent = () => {
             onChange={formik.handleChange}
             isValid={formik.errors.publicPlace ? true : false}
             message={formik.errors.publicPlace}
-            isDisabled={
-              formik.values.cep && formik.values.publicPlace ? true : false
-            }
+            isDisabled={haveCep.publicPlace}
           />
         </GridItem>
         <GridItem colSpan={{ md: 1 }}>
@@ -180,9 +185,7 @@ export const FormComponent = () => {
             onChange={formik.handleChange}
             isValid={formik.errors.district ? true : false}
             message={formik.errors.district}
-            isDisabled={
-              formik.values.cep && formik.values.district ? true : false
-            }
+            isDisabled={haveCep.district}
           />
         </GridItem>
         <GridItem colSpan={{ md: 2 }}>
@@ -194,7 +197,7 @@ export const FormComponent = () => {
             onChange={formik.handleChange}
             isValid={formik.errors.city ? true : false}
             message={formik.errors.city}
-            isDisabled={formik.values.cep && formik.values.city ? true : false}
+            isDisabled={haveCep.city}
           />
         </GridItem>
         <GridItem colSpan={{ md: 1 }}>
@@ -206,7 +209,7 @@ export const FormComponent = () => {
             onChange={formik.handleChange}
             isValid={formik.errors.state ? true : false}
             message={formik.errors.state}
-            isDisabled={formik.values.cep && formik.values.state ? true : false}
+            isDisabled={haveCep.state}
           />
         </GridItem>
       </Grid>
