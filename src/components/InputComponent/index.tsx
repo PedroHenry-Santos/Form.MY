@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { Dispatch, useEffect, useRef } from 'react';
 
 import {
   FormControl,
@@ -29,6 +29,14 @@ type InputComponentProps = {
     value: any,
     shouldValidate?: boolean | undefined
   ) => void;
+  setHaveCep?: Dispatch<
+    React.SetStateAction<{
+      publicPlace: boolean;
+      district: boolean;
+      city: boolean;
+      state: boolean;
+    }>
+  >;
 };
 
 export const InputComponent: React.FC<InputComponentProps> = ({
@@ -41,7 +49,8 @@ export const InputComponent: React.FC<InputComponentProps> = ({
   message,
   onChange,
   setFieldValue,
-  setFieldError
+  setFieldError,
+  setHaveCep
 }) => {
   const ref = useRef<HTMLInputElement>(null);
 
@@ -85,8 +94,8 @@ export const InputComponent: React.FC<InputComponentProps> = ({
         bg="gray.100"
         autoComplete="off"
         onBlur={event => {
-          if (setFieldValue && setFieldError)
-            return onBlurCep(event, setFieldValue, setFieldError);
+          if (setFieldValue && setFieldError && setHaveCep)
+            return onBlurCep(event, setFieldValue, setFieldError, setHaveCep);
         }}
       />
       <FormErrorMessage>{message}</FormErrorMessage>

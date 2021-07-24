@@ -9,14 +9,17 @@ import {
   Grid,
   GridItem,
   Table,
-  Td,
+  Tbody,
+  Text,
   Th,
-  Thead,
   Tr
 } from '@chakra-ui/react';
 
+import { database } from '../../services/firebase';
+
 type AccordionComponentProps = {
   data: {
+    id: string;
     name: string;
     email: string;
     document: string;
@@ -32,6 +35,7 @@ type AccordionComponentProps = {
 
 export const AccordionComponent = ({ data }: AccordionComponentProps) => {
   const {
+    id,
     name,
     email,
     document,
@@ -44,28 +48,42 @@ export const AccordionComponent = ({ data }: AccordionComponentProps) => {
     state
   } = data;
 
+  const handleClientDelete = async (clientId: string) => {
+    await database.ref(`clients/${clientId}`).remove();
+  };
+
   return (
-    <AccordionItem>
-      <AccordionButton p={0} bg="gray.50">
+    <AccordionItem _hover={{ background: 'gray.100' }}>
+      <AccordionButton
+        p={0}
+        bg="gray.50"
+        _focus={{ border: '2px solid #4FD1C5' }}
+      >
         <Table variant="unstyled" fontWeight="bold">
-          <Thead>
+          <Tbody>
             <Tr>
               <Th
                 w="50%"
                 fontWeight="normal"
                 fontFamily="Archivo"
                 fontSize="md"
+                px={1}
               >
                 {name}
               </Th>
-              <Th fontWeight="normal" fontFamily="Archivo" fontSize="md">
+              <Th fontWeight="normal" fontFamily="Archivo" fontSize="md" px={1}>
                 {document}
               </Th>
-              <Th d="flex" justifyContent="flex-end" w="-moz-fit-content">
+              <Th
+                d="flex"
+                justifyContent="flex-end"
+                w="-moz-fit-content"
+                mx="auto"
+              >
                 <AccordionIcon />
               </Th>
             </Tr>
-          </Thead>
+          </Tbody>
         </Table>
       </AccordionButton>
 
@@ -74,60 +92,60 @@ export const AccordionComponent = ({ data }: AccordionComponentProps) => {
           <GridItem rowSpan={1}>
             <Grid templateColumns={{ md: 'repeat(2, 1fr)' }}>
               <GridItem colSpan={1} py={2}>
-                <Td fontWeight="semibold" fontSize="md" pr={2}>
+                <Text fontWeight="semibold" fontSize="md">
                   E-mail:
-                </Td>
-                <Td fontSize="md">{email}</Td>
+                </Text>
+                <Text fontSize="md">{email}</Text>
               </GridItem>
               <GridItem colSpan={1} py={2}>
-                <Td fontWeight="semibold" fontSize="md" pr={2}>
+                <Text fontWeight="semibold" fontSize="md">
                   Telefone:
-                </Td>
-                <Td fontSize="md">{fone}</Td>
+                </Text>
+                <Text fontSize="md">{fone}</Text>
               </GridItem>
             </Grid>
           </GridItem>
           <GridItem rowSpan={1}>
             <Grid templateColumns={{ md: 'repeat(3, 1fr)' }}>
               <GridItem colSpan={1} py={2}>
-                <Td fontWeight="semibold" fontSize="md" pr={2}>
+                <Text fontWeight="semibold" fontSize="md">
                   CEP:
-                </Td>
-                <Td fontSize="md">{cep}</Td>
+                </Text>
+                <Text fontSize="md">{cep}</Text>
               </GridItem>
               <GridItem colSpan={1} py={2}>
-                <Td fontWeight="semibold" fontSize="md" pr={2}>
+                <Text fontWeight="semibold" fontSize="md">
                   Logradouro:
-                </Td>
-                <Td fontSize="md">{publicPlace}</Td>
+                </Text>
+                <Text fontSize="md">{publicPlace}</Text>
               </GridItem>
               <GridItem colSpan={1} py={2}>
-                <Td fontWeight="semibold" fontSize="md" pr={2}>
+                <Text fontWeight="semibold" fontSize="md">
                   Número:
-                </Td>
-                <Td fontSize="md">{number}</Td>
+                </Text>
+                <Text fontSize="md">{number}</Text>
               </GridItem>
             </Grid>
           </GridItem>
           <GridItem rowSpan={1}>
             <Grid templateColumns={{ md: 'repeat(3, 1fr)' }}>
               <GridItem colSpan={1} py={2}>
-                <Td fontWeight="semibold" fontSize="md" pr={2}>
+                <Text fontWeight="semibold" fontSize="md">
                   Bairro:
-                </Td>
-                <Td fontSize="md">{district}</Td>
+                </Text>
+                <Text fontSize="md">{district}</Text>
               </GridItem>
               <GridItem colSpan={1} py={2}>
-                <Td fontWeight="semibold" fontSize="md" pr={2}>
+                <Text fontWeight="semibold" fontSize="md">
                   Cidade:
-                </Td>
-                <Td fontSize="md">{city}</Td>
+                </Text>
+                <Text fontSize="md">{city}</Text>
               </GridItem>
               <GridItem colSpan={1} py={2}>
-                <Td fontWeight="semibold" fontSize="md" pr={2}>
+                <Text fontWeight="semibold" fontSize="md">
                   Estado:
-                </Td>
-                <Td fontSize="md">{state}</Td>
+                </Text>
+                <Text fontSize="md">{state}</Text>
               </GridItem>
             </Grid>
           </GridItem>
@@ -136,6 +154,7 @@ export const AccordionComponent = ({ data }: AccordionComponentProps) => {
             d="flex"
             justifyContent="center"
             alignItems="center"
+            mt={5}
           >
             <Button
               bg="red.600"
@@ -144,6 +163,7 @@ export const AccordionComponent = ({ data }: AccordionComponentProps) => {
               maxW="sm"
               h={12}
               _hover={{ background: 'red.500' }}
+              onClick={() => handleClientDelete(id)}
             >
               Apagar
             </Button>

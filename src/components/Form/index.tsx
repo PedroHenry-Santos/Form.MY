@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Grid, GridItem, useDisclosure } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
+import { database } from '../../services/firebase';
 import { verifyDocument } from '../../utils/validation';
 import { ButtonComponent } from '../ButtonComponent';
 import { InputComponent } from '../InputComponent';
@@ -11,6 +12,12 @@ import { ModalComponent } from '../ModalComponent';
 
 export const FormComponent = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [haveCep, setHaveCep] = useState({
+    publicPlace: false,
+    district: false,
+    city: false,
+    state: false
+  });
 
   const validationSchema = Yup.object({
     name: Yup.string().required('Campo nome é requerido'),
@@ -60,15 +67,37 @@ export const FormComponent = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values, actions) => {
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        actions.setSubmitting(false);
-      }, 1000);
+      const clientRef = database.ref(
+        'clients/' + values.name.replace(/ /g, '_').toLowerCase()
+      );
+
+      clientRef
+        .set({
+          name: values.name.toUpperCase(),
+          email: values.email.toUpperCase(),
+          document: values.document.toUpperCase(),
+          fone: values.fone.toUpperCase(),
+          cep: values.cep.toUpperCase(),
+          publicPlace: values.publicPlace.toUpperCase(),
+          number: values.number.toUpperCase(),
+          district: values.district.toUpperCase(),
+          city: values.city.toUpperCase(),
+          state: values.state.toUpperCase()
+        })
+        .then(() => {
+          formik.handleReset(values);
+          actions.setSubmitting(false);
+        });
     }
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} autoComplete="off">
+    <form
+      onSubmit={event => {
+        formik.handleSubmit(event);
+      }}
+      autoComplete="off"
+    >
       <Grid templateColumns={{ md: 'repeat(5, 1fr)' }} gap={3}>
         <GridItem colSpan={{ md: 5 }}>
           <InputComponent
@@ -124,6 +153,7 @@ export const FormComponent = () => {
             message={formik.errors.cep}
             setFieldValue={formik.setFieldValue}
             setFieldError={formik.setFieldError}
+            setHaveCep={setHaveCep}
           />
         </GridItem>
         <GridItem colSpan={{ md: 4 }}>
@@ -134,9 +164,7 @@ export const FormComponent = () => {
             onChange={formik.handleChange}
             isValid={formik.errors.publicPlace ? true : false}
             message={formik.errors.publicPlace}
-            isDisabled={
-              formik.values.cep && formik.values.publicPlace ? true : false
-            }
+            isDisabled={haveCep.publicPlace}
           />
         </GridItem>
         <GridItem colSpan={{ md: 1 }}>
@@ -157,9 +185,7 @@ export const FormComponent = () => {
             onChange={formik.handleChange}
             isValid={formik.errors.district ? true : false}
             message={formik.errors.district}
-            isDisabled={
-              formik.values.cep && formik.values.district ? true : false
-            }
+            isDisabled={haveCep.district}
           />
         </GridItem>
         <GridItem colSpan={{ md: 2 }}>
@@ -171,7 +197,7 @@ export const FormComponent = () => {
             onChange={formik.handleChange}
             isValid={formik.errors.city ? true : false}
             message={formik.errors.city}
-            isDisabled={formik.values.cep && formik.values.city ? true : false}
+            isDisabled={haveCep.city}
           />
         </GridItem>
         <GridItem colSpan={{ md: 1 }}>
@@ -183,7 +209,7 @@ export const FormComponent = () => {
             onChange={formik.handleChange}
             isValid={formik.errors.state ? true : false}
             message={formik.errors.state}
-            isDisabled={formik.values.cep && formik.values.state ? true : false}
+            isDisabled={haveCep.state}
           />
         </GridItem>
       </Grid>
@@ -195,7 +221,12 @@ export const FormComponent = () => {
         >
           Registrar
         </ButtonComponent>
-        <ButtonComponent bg="yellow" type="reset" onClick={onOpen}>
+        <ButtonComponent
+          bg="yellow"
+          type="reset"
+          onClick={onOpen}
+          isDisabled={!formik.dirty}
+        >
           Limpar
         </ButtonComponent>
         <ModalComponent

@@ -14,6 +14,13 @@ const theme = extendTheme({
     md: '750px',
     lg: null,
     xl: null
+  },
+  styles: {
+    global: {
+      body: {
+        bg: 'green.50'
+      }
+    }
   }
 });
 
