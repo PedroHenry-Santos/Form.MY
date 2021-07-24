@@ -41,10 +41,12 @@ export const FormComponent = () => {
         if (!value || value.replace(/[^0-9]/g, '').length < 10) return false;
         else return true;
       }),
-    cep: Yup.string().test('Tamanho', 'É esperado 8 dígitos', value => {
-      if (!value || value.replace(/[^0-9]/g, '').length < 8) return false;
-      else return true;
-    }),
+    cep: Yup.string()
+      .required('Campo CEP é requerido')
+      .test('Tamanho', 'É esperado 8 dígitos', value => {
+        if (!value || value.replace(/[^0-9]/g, '').length < 8) return false;
+        else return true;
+      }),
     publicPlace: Yup.string(),
     number: Yup.string(),
     district: Yup.string(),
@@ -144,6 +146,7 @@ export const FormComponent = () => {
           <InputComponent
             id="cep"
             name="CEP"
+            isRequired={true}
             value={formik.values.cep}
             onChange={formik.handleChange}
             isValid={formik.errors.cep ? true : false}
