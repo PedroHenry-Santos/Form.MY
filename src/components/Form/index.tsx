@@ -4,6 +4,7 @@ import { Grid, GridItem, useDisclosure } from '@chakra-ui/react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
+import { database } from '../../services/firebase';
 import { verifyDocument } from '../../utils/validation';
 import { ButtonComponent } from '../ButtonComponent';
 import { InputComponent } from '../InputComponent';
@@ -60,15 +61,37 @@ export const FormComponent = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values, actions) => {
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        actions.setSubmitting(false);
-      }, 1000);
+      const clientRef = database.ref(
+        'clients/' + values.name.replace(/ /g, '_').toLowerCase()
+      );
+
+      clientRef
+        .set({
+          name: values.name.toUpperCase(),
+          email: values.email.toUpperCase(),
+          document: values.document.toUpperCase(),
+          fone: values.fone.toUpperCase(),
+          cep: values.cep.toUpperCase(),
+          publicPlace: values.publicPlace.toUpperCase(),
+          number: values.number.toUpperCase(),
+          district: values.district.toUpperCase(),
+          city: values.city.toUpperCase(),
+          state: values.state.toUpperCase()
+        })
+        .then(() => {
+          formik.handleReset(values);
+          actions.setSubmitting(false);
+        });
     }
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} autoComplete="off">
+    <form
+      onSubmit={event => {
+        formik.handleSubmit(event);
+      }}
+      autoComplete="off"
+    >
       <Grid templateColumns={{ md: 'repeat(5, 1fr)' }} gap={3}>
         <GridItem colSpan={{ md: 5 }}>
           <InputComponent
