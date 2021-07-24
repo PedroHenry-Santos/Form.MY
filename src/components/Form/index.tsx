@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 
 import { database } from '../../services/firebase';
 import { verifyDocument } from '../../utils/validation';
+import { AlertComponent } from '../AlertComponent';
 import { ButtonComponent } from '../ButtonComponent';
 import { InputComponent } from '../InputComponent';
 import { OverlayComponent } from '../OverlayComponent';
@@ -20,6 +21,9 @@ export const FormComponent = () => {
     city: false,
     state: false
   });
+
+  const [success, setSuccess] = useState(false);
+  const [fail, setFail] = useState(false);
 
   const validationSchema = Yup.object({
     name: Yup.string().required('Campo nome é requerido'),
@@ -71,6 +75,16 @@ export const FormComponent = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values, actions) => {
+      const connectedRef = database.ref('.info/connected');
+
+      connectedRef.on('value', snap => {
+        if (snap.val() === false) {
+          setFail(true);
+          actions.setSubmitting(false);
+          return;
+        }
+      });
+
       const clientRef = database.ref(
         'clients/' + values.name.replace(/ /g, '_').toLowerCase()
       );
@@ -88,15 +102,39 @@ export const FormComponent = () => {
           city: values.city.toUpperCase(),
           state: values.state.toUpperCase()
         })
+        .catch(() => {
+          setFail(true);
+        })
         .then(() => {
+          setSuccess(true);
           formik.handleReset(values);
           actions.setSubmitting(false);
+          setHaveCep({
+            publicPlace: false,
+            district: false,
+            city: false,
+            state: false
+          });
         });
     }
   });
 
   return (
     <form autoComplete="off">
+      {success && (
+        <AlertComponent
+          actions={setSuccess}
+          text="Cliente cadastrado com sucesso. A força está contigo!"
+          status="success"
+        />
+      )}
+      {fail && (
+        <AlertComponent
+          actions={setFail}
+          text="Houve um erro ao cadastrar o cliente"
+          status="error"
+        />
+      )}
       <Grid templateColumns={{ md: 'repeat(5, 1fr)' }} gap={3}>
         <GridItem colSpan={{ md: 5 }}>
           <InputComponent
