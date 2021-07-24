@@ -8,8 +8,10 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogOverlay,
-  Button
+  Button,
+  ButtonProps
 } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 
 type ModalComponentProps = {
   text: string;
@@ -19,6 +21,8 @@ type ModalComponentProps = {
   isLoading?: boolean;
   handleReset: (event: any) => void;
 };
+
+const MotionButton = motion<ButtonProps>(Button);
 
 export const OverlayComponent = ({
   text,
@@ -45,10 +49,20 @@ export const OverlayComponent = ({
         <AlertDialogCloseButton />
         <AlertDialogBody fontSize="xl">{text}</AlertDialogBody>
         <AlertDialogFooter>
-          <Button fontSize="xl" h={10} w={28} ref={cancelRef} onClick={onClose}>
+          <MotionButton
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 1 }}
+            fontSize="xl"
+            h={10}
+            w={28}
+            ref={cancelRef}
+            onClick={onClose}
+          >
             Não
-          </Button>
-          <Button
+          </MotionButton>
+          <MotionButton
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 1 }}
             fontSize="xl"
             h={10}
             w={28}
@@ -63,7 +77,7 @@ export const OverlayComponent = ({
             }}
           >
             Sim
-          </Button>
+          </MotionButton>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

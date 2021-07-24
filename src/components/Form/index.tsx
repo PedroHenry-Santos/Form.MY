@@ -8,7 +8,7 @@ import { database } from '../../services/firebase';
 import { verifyDocument } from '../../utils/validation';
 import { ButtonComponent } from '../ButtonComponent';
 import { InputComponent } from '../InputComponent';
-import { ModalComponent } from '../ModalComponent';
+import { OverlayComponent } from '../OverlayComponent';
 
 export const FormComponent = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -229,7 +229,9 @@ export const FormComponent = () => {
         >
           Limpar
         </ButtonComponent>
-        <ModalComponent
+        <OverlayComponent
+          title="Limpar campos?"
+          text="Tem certeza de que deseja descartar todas as suas alterações?"
           onClose={onClose}
           isOpen={isOpen}
           handleReset={formik.handleReset}

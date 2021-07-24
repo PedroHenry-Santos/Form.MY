@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Button } from '@chakra-ui/react';
+import { Button, ButtonProps } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 
 type ButtonComponentProps = {
   bg: string;
@@ -22,8 +23,12 @@ export const ButtonComponent: React.FC<ButtonComponentProps> = ({
   onClick,
   isDisabled = false
 }) => {
+  const MotionButton = motion<ButtonProps>(Button);
+
   return (
-    <Button
+    <MotionButton
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 1 }}
       mt={10}
       isLoading={isLoading /*props.isSubmitting*/}
       type={`${type}`}
@@ -40,6 +45,6 @@ export const ButtonComponent: React.FC<ButtonComponentProps> = ({
       disabled={isDisabled}
     >
       {children}
-    </Button>
+    </MotionButton>
   );
 };
