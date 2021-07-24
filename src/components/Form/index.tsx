@@ -11,7 +11,9 @@ import { InputComponent } from '../InputComponent';
 import { OverlayComponent } from '../OverlayComponent';
 
 export const FormComponent = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const Cleaning = useDisclosure();
+  const Record = useDisclosure();
+
   const [haveCep, setHaveCep] = useState({
     publicPlace: false,
     district: false,
@@ -92,12 +94,7 @@ export const FormComponent = () => {
   });
 
   return (
-    <form
-      onSubmit={event => {
-        formik.handleSubmit(event);
-      }}
-      autoComplete="off"
-    >
+    <form autoComplete="off">
       <Grid templateColumns={{ md: 'repeat(5, 1fr)' }} gap={3}>
         <GridItem colSpan={{ md: 5 }}>
           <InputComponent
@@ -216,15 +213,16 @@ export const FormComponent = () => {
       <Grid templateColumns="repeat(2, 1fr)" gap={3}>
         <ButtonComponent
           bg="green"
-          type="submit"
+          type="button"
+          onClick={Record.onOpen}
           isLoading={formik.isSubmitting}
         >
           Registrar
         </ButtonComponent>
         <ButtonComponent
           bg="yellow"
-          type="reset"
-          onClick={onOpen}
+          type="button"
+          onClick={Cleaning.onOpen}
           isDisabled={!formik.dirty}
         >
           Limpar
@@ -232,9 +230,18 @@ export const FormComponent = () => {
         <OverlayComponent
           title="Limpar campos?"
           text="Tem certeza de que deseja descartar todas as suas alterações?"
-          onClose={onClose}
-          isOpen={isOpen}
-          handleReset={formik.handleReset}
+          onClose={Cleaning.onClose}
+          isOpen={Cleaning.isOpen}
+          bg="red"
+          handleFunction={formik.handleReset}
+        />
+        <OverlayComponent
+          title="Registrar cliente?"
+          text="Tem certeza de que deseja registrar as informações do cliente?"
+          onClose={Record.onClose}
+          isOpen={Record.isOpen}
+          bg="green"
+          handleFunction={formik.handleSubmit}
         />
       </Grid>
     </form>
