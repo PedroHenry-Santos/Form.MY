@@ -4,8 +4,10 @@ import {
   AccordionButton,
   AccordionIcon,
   AccordionItem,
+  AccordionItemProps,
   AccordionPanel,
   Button,
+  ButtonProps,
   Grid,
   GridItem,
   Table,
@@ -14,6 +16,7 @@ import {
   Th,
   Tr
 } from '@chakra-ui/react';
+import { motion } from 'framer-motion';
 
 import { database } from '../../services/firebase';
 
@@ -52,8 +55,15 @@ export const AccordionComponent = ({ data }: AccordionComponentProps) => {
     await database.ref(`clients/${clientId}`).remove();
   };
 
+  const MotionButton = motion<ButtonProps>(Button);
+  const MotionAccordionItem = motion<AccordionItemProps>(AccordionItem);
+  const item = {
+    show: { opacity: 1, y: '0' },
+    hidden: { opacity: 0, y: '50%' }
+  };
+
   return (
-    <AccordionItem _hover={{ background: 'gray.100' }}>
+    <MotionAccordionItem _hover={{ background: 'gray.100' }} variants={item}>
       <AccordionButton
         p={0}
         bg="gray.50"
@@ -156,7 +166,9 @@ export const AccordionComponent = ({ data }: AccordionComponentProps) => {
             alignItems="center"
             mt={5}
           >
-            <Button
+            <MotionButton
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 1 }}
               bg="red.600"
               color="white"
               w="full"
@@ -166,10 +178,10 @@ export const AccordionComponent = ({ data }: AccordionComponentProps) => {
               onClick={() => handleClientDelete(id)}
             >
               Apagar
-            </Button>
+            </MotionButton>
           </GridItem>
         </Grid>
       </AccordionPanel>
-    </AccordionItem>
+    </MotionAccordionItem>
   );
 };
