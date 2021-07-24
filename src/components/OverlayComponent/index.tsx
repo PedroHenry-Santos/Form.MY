@@ -14,19 +14,21 @@ import {
 type ModalComponentProps = {
   text: string;
   title: string;
+  bg: string;
   isOpen: boolean;
   onClose: () => void;
   isLoading?: boolean;
-  handleReset: (event: any) => void;
+  handleFunction: (event: any) => void;
 };
 
 export const OverlayComponent = ({
   text,
   title,
+  bg,
   isOpen,
   onClose,
   isLoading,
-  handleReset
+  handleFunction
 }: ModalComponentProps) => {
   const cancelRef = useRef<HTMLButtonElement>(null);
 
@@ -52,13 +54,13 @@ export const OverlayComponent = ({
             fontSize="xl"
             h={10}
             w={28}
-            bg="red.600"
-            _hover={{ background: 'red.500' }}
+            bg={`${bg}.600`}
+            _hover={{ background: `${bg}.500` }}
             color="white"
             ml={3}
             isLoading={isLoading}
             onClick={event => {
-              handleReset(event);
+              handleFunction(event);
               onClose();
             }}
           >
