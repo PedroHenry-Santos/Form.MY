@@ -13,6 +13,10 @@ export default class MyDocument extends Document {
           <meta charSet="utf-8" />
           <meta name="For.MY" content="For.MY" />
           <meta name="theme-color" content="#48BB78" />
+          <meta
+            name="author"
+            content="https://github.com/PedroHenry-Santos"
+          ></meta>
 
           <meta property="og:type" content="website" />
           <meta
@@ -22,7 +26,7 @@ export default class MyDocument extends Document {
           <meta property="og:title" content="For.MY" />
           <meta
             property="og:description"
-            content="Formulário para cadastro de clientes com persistência de dados."
+            content="Formulário para cadastro de clientes com persistência de dados utilizando o Firebase. Faça cadastros de maneira simples com funcionalidade 'offline'."
           />
           <meta property="og:image" content="/img/demo.png" />
 
@@ -34,7 +38,7 @@ export default class MyDocument extends Document {
           <meta property="twitter:title" content="For.MY" />
           <meta
             property="twitter:description"
-            content="Formulário para cadastro de clientes com persistência de dados."
+            content="Formulário para cadastro de clientes com persistência de dados utilizando o Firebase. Faça cadastros de maneira simples com funcionalidade 'offline'."
           />
           <meta property="twitter:image" content="/img/demo.png" />
 
@@ -55,7 +59,7 @@ export default class MyDocument extends Document {
           />
           <meta
             name="description"
-            content="Formulário para cadastro de clientes com persistência de dados."
+            content="Formulário para cadastro de clientes com persistência de dados utilizando o Firebase. Faça cadastros de maneira simples com funcionalidade 'offline'."
           />
           <link rel="manifest" href="manifest.json" />
         </Head>

@@ -20,7 +20,7 @@
     }
   ],
   "background_color": "#48BB78",
-  "description": "Formulário para cadastro de clientes com persistência de dados.",
+  "description": "Formulário para cadastro de clientes com persistência de dados utilizando o Firebase. Faça cadastros de maneira simples com funcionalidade 'offline'.",
   "start_url": "/",
   "display": "fullscreen",
   "theme_color": "#B7791F"
