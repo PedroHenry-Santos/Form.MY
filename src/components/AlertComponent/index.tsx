@@ -14,7 +14,7 @@ export const AlertComponent = ({
   actions
 }: AlertComponentProps) => {
   return (
-    <Alert status={`${status}`} borderRadius="md" mb={4}>
+    <Alert status={`${status}`} borderRadius="md" mb={1}>
       <AlertIcon />
       {text}
       <CloseButton

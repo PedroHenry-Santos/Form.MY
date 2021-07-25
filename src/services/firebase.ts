@@ -1,7 +1,6 @@
 import firebase from 'firebase/app';
 
-import 'firebase/auth';
-import 'firebase/database';
+import 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -15,9 +14,9 @@ const firebaseConfig = {
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
+  firebase.firestore().enablePersistence();
 }
 
-const auth = firebase.auth();
-const database = firebase.database();
+const database = firebase.firestore();
 
-export { firebase, auth, database };
+export { firebase, database };

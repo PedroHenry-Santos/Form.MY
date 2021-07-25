@@ -2,60 +2,33 @@ import React, { useState } from 'react';
 
 import { Grid, GridItem, useDisclosure } from '@chakra-ui/react';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
 
+import { useConnection } from '../../hooks/useConnection';
+import { useGlobalProcesses } from '../../hooks/useGlobalProcesses';
 import { database } from '../../services/firebase';
-import { verifyDocument } from '../../utils/validation';
-import { AlertComponent } from '../AlertComponent';
+import { validationSchema } from '../../utils/validationSchema';
 import { ButtonComponent } from '../ButtonComponent';
+import { GlobalAlertsComponents } from '../GlobalAlertsComponents';
 import { InputComponent } from '../InputComponent';
 import { OverlayComponent } from '../OverlayComponent';
 
 export const FormComponent = () => {
   const Cleaning = useDisclosure();
   const Record = useDisclosure();
+  const {
+    setIsSubmitFail,
+    setIsSubmitSuccess,
+    setIsSubmitOfflineSuccess,
+    setWasSubmitMigrated,
+    setWasNotSubmitMigrated
+  } = useGlobalProcesses();
+  const { status } = useConnection();
 
   const [haveCep, setHaveCep] = useState({
     publicPlace: false,
     district: false,
     city: false,
     state: false
-  });
-
-  const [success, setSuccess] = useState(false);
-  const [fail, setFail] = useState(false);
-
-  const validationSchema = Yup.object({
-    name: Yup.string().required('Campo nome é requerido'),
-    email: Yup.string()
-      .email('Esse não é um e-mail valido')
-      .required('Campo e-mail é requerido'),
-    document: Yup.string()
-      .required('Campo  é requerido')
-      .test('Tamanho', 'É esperado no mínimo 11 dígitos', value => {
-        if (!value || value.replace(/[^0-9]/g, '').length < 11) return false;
-        else return true;
-      })
-      .test('CPF/CNPJ', 'O CPF/CNPJ é invalido', value =>
-        verifyDocument(value)
-      ),
-    fone: Yup.string()
-      .required('Campo telefone é requerido')
-      .test('Tamanho', 'É esperado no mínimo 10 dígitos', value => {
-        if (!value || value.replace(/[^0-9]/g, '').length < 10) return false;
-        else return true;
-      }),
-    cep: Yup.string()
-      .required('Campo CEP é requerido')
-      .test('Tamanho', 'É esperado 8 dígitos', value => {
-        if (!value || value.replace(/[^0-9]/g, '').length < 8) return false;
-        else return true;
-      }),
-    publicPlace: Yup.string(),
-    number: Yup.string(),
-    district: Yup.string(),
-    city: Yup.string().required('Campo cidade é requerido'),
-    state: Yup.string().required('Campo estado é requerido')
   });
 
   const formik = useFormik({
@@ -75,66 +48,74 @@ export const FormComponent = () => {
     },
     validationSchema: validationSchema,
     onSubmit: (values, actions) => {
-      const connectedRef = database.ref('.info/connected');
+      const clientRef = database.collection('clients');
 
-      connectedRef.on('value', snap => {
-        if (snap.val() === false) {
-          setFail(true);
-          actions.setSubmitting(false);
-          return;
-        }
-      });
-
-      const clientRef = database.ref(
-        'clients/' + values.name.replace(/ /g, '_').toLowerCase()
-      );
-
-      clientRef
-        .set({
-          name: values.name.toUpperCase(),
-          email: values.email.toUpperCase(),
-          document: values.document.toUpperCase(),
-          fone: values.fone.toUpperCase(),
-          cep: values.cep.toUpperCase(),
-          publicPlace: values.publicPlace.toUpperCase(),
-          number: values.number.toUpperCase(),
-          district: values.district.toUpperCase(),
-          city: values.city.toUpperCase(),
-          state: values.state.toUpperCase()
-        })
-        .catch(() => {
-          setFail(true);
-        })
-        .then(() => {
-          setSuccess(true);
-          formik.handleReset(values);
-          actions.setSubmitting(false);
-          setHaveCep({
-            publicPlace: false,
-            district: false,
-            city: false,
-            state: false
+      if (status) {
+        clientRef
+          .add({
+            name: values.name.toUpperCase(),
+            email: values.email.toUpperCase(),
+            document: values.document.toUpperCase(),
+            phone: values.fone.toUpperCase(),
+            cep: values.cep.toUpperCase(),
+            street: values.publicPlace.toUpperCase(),
+            number: values.number.toUpperCase(),
+            neighborhood: values.district.toUpperCase(),
+            city: values.city.toUpperCase(),
+            state: values.state.toUpperCase()
+          })
+          .catch(() => {
+            setIsSubmitFail(true);
+            actions.setSubmitting(false);
+          })
+          .then(() => {
+            setIsSubmitSuccess(true);
+            formik.handleReset(values);
+            actions.setSubmitting(false);
+            setHaveCep({
+              publicPlace: false,
+              district: false,
+              city: false,
+              state: false
+            });
           });
+      } else {
+        clientRef
+          .add({
+            name: values.name.toUpperCase(),
+            email: values.email.toUpperCase(),
+            document: values.document.toUpperCase(),
+            phone: values.fone.toUpperCase(),
+            cep: values.cep.toUpperCase(),
+            street: values.publicPlace.toUpperCase(),
+            number: values.number.toUpperCase(),
+            neighborhood: values.district.toUpperCase(),
+            city: values.city.toUpperCase(),
+            state: values.state.toUpperCase()
+          })
+          .catch(() => {
+            setWasNotSubmitMigrated(true);
+          })
+          .then(() => {
+            setWasSubmitMigrated(true);
+          });
+
+        setIsSubmitOfflineSuccess(true);
+        formik.handleReset(values);
+        actions.setSubmitting(false);
+        setHaveCep({
+          publicPlace: false,
+          district: false,
+          city: false,
+          state: false
         });
+      }
     }
   });
 
   return (
     <form autoComplete="off">
-      {success && (
-        <AlertComponent
-          actions={setSuccess}
-          text="Cliente cadastrado com sucesso. A força está contigo!"
-          status="success"
-        />
-      )}
-      {fail && (
-        <AlertComponent
-          actions={setFail}
-          text="Houve um erro ao cadastrar o cliente"
-          status="error"
-        />
-      )}
+      <GlobalAlertsComponents />
       <Grid templateColumns={{ md: 'repeat(5, 1fr)' }} gap={3}>
         <GridItem colSpan={{ md: 5 }}>
           <InputComponent
@@ -202,7 +183,7 @@ export const FormComponent = () => {
             onChange={formik.handleChange}
             isValid={formik.errors.publicPlace ? true : false}
             message={formik.errors.publicPlace}
-            isDisabled={haveCep.publicPlace}
+            isDisabled={haveCep?.publicPlace}
           />
         </GridItem>
         <GridItem colSpan={{ md: 1 }}>
@@ -223,7 +204,7 @@ export const FormComponent = () => {
             onChange={formik.handleChange}
             isValid={formik.errors.district ? true : false}
             message={formik.errors.district}
-            isDisabled={haveCep.district}
+            isDisabled={haveCep?.district}
           />
         </GridItem>
         <GridItem colSpan={{ md: 2 }}>
@@ -235,7 +216,7 @@ export const FormComponent = () => {
             onChange={formik.handleChange}
             isValid={formik.errors.city ? true : false}
             message={formik.errors.city}
-            isDisabled={haveCep.city}
+            isDisabled={haveCep?.city}
           />
         </GridItem>
         <GridItem colSpan={{ md: 1 }}>
@@ -247,7 +228,7 @@ export const FormComponent = () => {
             onChange={formik.handleChange}
             isValid={formik.errors.state ? true : false}
             message={formik.errors.state}
-            isDisabled={haveCep.state}
+            isDisabled={haveCep?.state}
           />
         </GridItem>
       </Grid>

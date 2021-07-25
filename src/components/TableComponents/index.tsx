@@ -9,8 +9,8 @@ import {
   Tr
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { useClient } from 'src/hooks/useClient';
 
+import { useClient } from '../../hooks/useClient';
 import { AccordionComponent } from '../AccordionComponent';
 
 type TableComponentsProps = {
@@ -59,9 +59,9 @@ export const TableComponents = ({ mt }: TableComponentsProps) => {
         initial="hidden"
         animate="show"
       >
-        {clients.map(client => (
-          <AccordionComponent key={client.id} data={client} />
-        ))}
+        {clients.map(client => {
+          return <AccordionComponent key={client.id} data={client} />;
+        })}
       </MotionAccordion>
     </>
   );
