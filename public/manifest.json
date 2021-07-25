@@ -1,6 +1,6 @@
 {
-  "name": "Boilerplate NextJS",
-  "short_name": "NextJS",
+  "name": "For.MY",
+  "short_name": "For.MY",
   "icons": [
     {
       "src": "/img/icon-128.png",
@@ -19,9 +19,9 @@
       "type": "image/png"
     }
   ],
-  "background_color": "#5e60ce",
-  "description": "Boilerplate utilizando NextJS, React, Typescript, styled-components",
+  "background_color": "#48BB78",
+  "description": "Formulário para cadastro de clientes com persistência de dados.",
   "start_url": "/",
   "display": "fullscreen",
-  "theme_color": "#5e60ce"
+  "theme_color": "#B7791F"
 }

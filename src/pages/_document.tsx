@@ -8,11 +8,35 @@ import theme from '../assets/styles/theme';
 export default class MyDocument extends Document {
   render(): JSX.Element {
     return (
-      <Html lang="pt">
+      <Html lang="pt-br">
         <Head>
           <meta charSet="utf-8" />
-          <meta name="Boilerplate NextJS" content="Boilerplate NextJS" />
-          <meta name="theme-color" content="#5e60ce" />
+          <meta name="For.MY" content="For.MY" />
+          <meta name="theme-color" content="#48BB78" />
+
+          <meta property="og:type" content="website" />
+          <meta
+            property="og:url"
+            content="https://form-pedrohenry-santos.vercel.app/"
+          />
+          <meta property="og:title" content="For.MY" />
+          <meta
+            property="og:description"
+            content="Formulário para cadastro de clientes com persistência de dados."
+          />
+          <meta property="og:image" content="/img/demo.png" />
+
+          <meta property="twitter:card" content="summary_large_image" />
+          <meta
+            property="twitter:url"
+            content="https://form-pedrohenry-santos.vercel.app/"
+          />
+          <meta property="twitter:title" content="For.MY" />
+          <meta
+            property="twitter:description"
+            content="Formulário para cadastro de clientes com persistência de dados."
+          />
+          <meta property="twitter:image" content="/img/demo.png" />
 
           <link
             rel="apple-touch-icon"
@@ -31,7 +55,7 @@ export default class MyDocument extends Document {
           />
           <meta
             name="description"
-            content="Boilerplate project to start a project with nextjs, react, typescript and styled-components"
+            content="Formulário para cadastro de clientes com persistência de dados."
           />
           <link rel="manifest" href="manifest.json" />
         </Head>
