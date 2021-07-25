@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import {
   AccordionButton,
@@ -19,6 +19,8 @@ import {
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 
+import { useConnection } from '../../hooks/useConnection';
+import { useGlobalProcesses } from '../../hooks/useGlobalProcesses';
 import { database } from '../../services/firebase';
 import { OverlayComponent } from '../OverlayComponent';
 
@@ -38,7 +40,15 @@ type AccordionComponentProps = {
   };
 };
 
+const MotionButton = motion<ButtonProps>(Button);
+const MotionAccordionItem = motion<AccordionItemProps>(AccordionItem);
+const item = {
+  show: { opacity: 1, y: '0' },
+  hidden: { opacity: 0, y: '50%' }
+};
+
 export const AccordionComponent = ({ data }: AccordionComponentProps) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     id,
@@ -54,15 +64,45 @@ export const AccordionComponent = ({ data }: AccordionComponentProps) => {
     state
   } = data;
 
-  const handleClientDelete = async (clientId: string) => {
-    await database.ref(`clients/${clientId}`).remove();
-  };
+  const { status } = useConnection();
+  const {
+    setIsDeleteSuccess,
+    setIsDeleteFail,
+    setIsDeleteOfflineSuccess,
+    setWasDeleteMigrated,
+    setWasNotDeleteMigrated
+  } = useGlobalProcesses();
 
-  const MotionButton = motion<ButtonProps>(Button);
-  const MotionAccordionItem = motion<AccordionItemProps>(AccordionItem);
-  const item = {
-    show: { opacity: 1, y: '0' },
-    hidden: { opacity: 0, y: '50%' }
+  const handleClientDelete = (clientId: string) => {
+    setIsLoading(true);
+    if (status) {
+      database
+        .collection('clients')
+        .doc(`${clientId}`)
+        .delete()
+        .catch(() => {
+          setIsDeleteFail(true);
+          setIsLoading(false);
+        })
+        .then(() => {
+          setIsDeleteSuccess(true);
+          setIsLoading(false);
+        });
+    } else {
+      database
+        .collection('clients')
+        .doc(`${clientId}`)
+        .delete()
+        .catch(() => {
+          setWasNotDeleteMigrated(true);
+        })
+        .then(() => {
+          setWasDeleteMigrated(true);
+        });
+
+      setIsDeleteOfflineSuccess(true);
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -179,6 +219,7 @@ export const AccordionComponent = ({ data }: AccordionComponentProps) => {
               h={12}
               _hover={{ background: 'red.500' }}
               onClick={onOpen}
+              isLoading={isLoading}
             >
               Apagar
             </MotionButton>

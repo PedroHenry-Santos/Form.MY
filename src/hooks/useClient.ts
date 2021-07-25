@@ -16,57 +16,47 @@ interface Client {
   state: string;
 }
 
-type FirebaseClients = Record<
-  string,
-  {
-    name: string;
-    email: string;
-    document: string;
-    fone: string;
-    cep: string;
-    publicPlace: string;
-    number: string;
-    district: string;
-    city: string;
-    state: string;
-  }
->;
+type FirebaseClients = {
+  name: string;
+  email: string;
+  document: string;
+  phone: string;
+  cep: string;
+  street: string;
+  number: string;
+  neighborhood: string;
+  city: string;
+  state: string;
+};
 
 export const useClient = () => {
   const [clients, setClients] = useState<Client[]>([]);
 
   useEffect(() => {
-    const clientRef = database.ref(`clients`);
+    const clientRef = database.collection('clients');
 
-    clientRef.on('value', Client => {
-      const databaseClient = Client.val();
+    clientRef.onSnapshot(snapshot => {
+      const data: Client[] = [];
 
-      const firebaseClient: FirebaseClients = databaseClient ?? {};
+      snapshot.forEach(doc => {
+        const client = doc.data() as FirebaseClients;
 
-      const parsedClients = Object.entries(firebaseClient).map(
-        ([key, value]) => {
-          return {
-            id: key,
-            name: value.name,
-            email: value.email,
-            document: value.document,
-            fone: value.fone,
-            cep: value.cep,
-            publicPlace: value.publicPlace,
-            number: value.number,
-            district: value.district,
-            city: value.city,
-            state: value.state
-          };
-        }
-      );
-
-      setClients(parsedClients);
+        data.push({
+          id: doc.id,
+          name: client.name,
+          email: client.email,
+          document: client.document,
+          fone: client.phone,
+          cep: client.cep,
+          publicPlace: client.street,
+          number: client.number,
+          district: client.neighborhood,
+          city: client.city,
+          state: client.state
+        });
+      });
+      setClients(data);
     });
-
-    return () => {
-      clientRef.off('value');
-    };
   }, []);
 
   return { clients };

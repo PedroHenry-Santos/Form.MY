@@ -5,6 +5,7 @@ import Head from 'next/head';
 import '@fontsource/poppins';
 import '@fontsource/archivo';
 import theme from '../assets/styles/theme';
+import { GlobalProcessesContextProvider } from '../contexts/globalProcessContext';
 
 const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
@@ -18,9 +19,11 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
       </Head>
 
       <ChakraProvider theme={theme}>
-        <Box d="flex" justifyContent="center" px={10} py={20}>
-          <Component {...pageProps} />
-        </Box>
+        <GlobalProcessesContextProvider>
+          <Box d="flex" justifyContent="center" px={10} py={20}>
+            <Component {...pageProps} />
+          </Box>
+        </GlobalProcessesContextProvider>
       </ChakraProvider>
     </>
   );

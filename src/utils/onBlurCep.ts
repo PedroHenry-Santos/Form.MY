@@ -1,4 +1,4 @@
-import { Dispatch, FocusEvent } from 'react';
+import { Dispatch, FocusEvent, SetStateAction } from 'react';
 
 import Cep from 'cep-promise';
 
@@ -15,7 +15,7 @@ export const onBlurCep = (
     shouldValidate?: boolean | undefined
   ) => void,
   setHaveCep: Dispatch<
-    React.SetStateAction<{
+    SetStateAction<{
       publicPlace: boolean;
       district: boolean;
       city: boolean;
