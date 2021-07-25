@@ -12,12 +12,31 @@ export default class MyDocument extends Document {
         <Head>
           <meta charSet="utf-8" />
           <meta name="For.MY" content="For.MY" />
-          <meta name="theme-color" content="#48BB78" />
+          <meta name="theme-color" content="#C6F6D5" />
+          <link rel="manifest" href="manifest.json" />
+          <link rel="shortcut icon" href="/img/favicon.ico" />
+          <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="/img/apple-touch-icon.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="/img/favicon-32x32.png"
+          />
+          <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="/img/favicon-16x16.png"
+          />
+
           <meta
             name="author"
             content="https://github.com/PedroHenry-Santos"
           ></meta>
-
           <meta property="og:type" content="website" />
           <meta
             property="og:url"
@@ -28,8 +47,10 @@ export default class MyDocument extends Document {
             property="og:description"
             content="Formulário para cadastro de clientes com persistência de dados utilizando o Firebase. Faça cadastros de maneira simples com funcionalidade 'offline'."
           />
-          <meta property="og:image" content="/img/demo.png" />
-
+          <meta
+            property="og:image"
+            content="https://form-pedrohenry-santos.vercel.app/img/demo.png"
+          />
           <meta property="twitter:card" content="summary_large_image" />
           <meta
             property="twitter:url"
@@ -40,28 +61,14 @@ export default class MyDocument extends Document {
             property="twitter:description"
             content="Formulário para cadastro de clientes com persistência de dados utilizando o Firebase. Faça cadastros de maneira simples com funcionalidade 'offline'."
           />
-          <meta property="twitter:image" content="/img/demo.png" />
-
-          <link
-            rel="apple-touch-icon"
-            sizes="128x128"
-            href="/img/icon-128.png"
-          />
-          <link
-            rel="apple-touch-icon"
-            sizes="256x256"
-            href="/img/icon-256.png"
-          />
-          <link
-            rel="apple-touch-icon"
-            sizes="512x512"
-            href="/img/icon-512.png"
+          <meta
+            property="twitter:image"
+            content="https://form-pedrohenry-santos.vercel.app/img/demo.png"
           />
           <meta
             name="description"
             content="Formulário para cadastro de clientes com persistência de dados utilizando o Firebase. Faça cadastros de maneira simples com funcionalidade 'offline'."
           />
-          <link rel="manifest" href="manifest.json" />
         </Head>
         <body>
           <ColorModeScript initialColorMode={theme.config.initialColorMode} />

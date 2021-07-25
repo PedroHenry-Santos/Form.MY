@@ -11,16 +11,16 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <title>Form</title>
+        <title>For.MY</title>
         <meta
           name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, user-scalable=no, viewport-fit=cover"
+          content="minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover"
         />
       </Head>
 
       <ChakraProvider theme={theme}>
         <GlobalProcessesContextProvider>
-          <Box d="flex" justifyContent="center" px={10} py={20}>
+          <Box d={{ md: 'flex' }} justifyContent={{ md: 'center' }} px="5px">
             <Component {...pageProps} />
           </Box>
         </GlobalProcessesContextProvider>

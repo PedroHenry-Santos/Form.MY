@@ -13,12 +13,12 @@ const theme = extendTheme({
     sm: null,
     md: '750px',
     lg: null,
-    xl: null
+    xl: '1366px'
   },
   styles: {
     global: {
       body: {
-        bg: 'green.50'
+        bg: 'green.100'
       }
     }
   }

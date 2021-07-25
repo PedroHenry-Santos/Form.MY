@@ -77,7 +77,7 @@ export const InputComponent: React.FC<InputComponentProps> = ({
 
   return (
     <FormControl isInvalid={isValid} isRequired={isRequired}>
-      <FormLabel htmlFor={id} color="gray.700" fontSize="md" mb="-0.2">
+      <FormLabel htmlFor={id} color="gray.700" fontSize="sm" mb="-0.2">
         {name}
       </FormLabel>
       <Input
@@ -85,7 +85,7 @@ export const InputComponent: React.FC<InputComponentProps> = ({
         ref={ref}
         id={id}
         name={id}
-        h={12}
+        h={{ xl: 10 }}
         focusBorderColor="green.400"
         fontSize="xl"
         value={value}

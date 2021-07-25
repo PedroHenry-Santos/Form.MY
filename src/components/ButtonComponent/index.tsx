@@ -29,7 +29,7 @@ export const ButtonComponent: React.FC<ButtonComponentProps> = ({
     <MotionButton
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 1 }}
-      mt={10}
+      mt={{ base: 5, md: 10 }}
       isLoading={isLoading /*props.isSubmitting*/}
       type={`${type}`}
       bg={`${bg}.600`}

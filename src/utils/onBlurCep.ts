@@ -27,22 +27,7 @@ export const onBlurCep = (
   const cep = value?.replace(/[^0-9]/g, '');
 
   if (cep?.length !== 8) {
-    setFieldValue('district', '');
-    setFieldValue('city', '');
-    setFieldValue('publicPlace', '');
-    setFieldValue('state', '');
-    setHaveCep({
-      district: false,
-      city: false,
-      publicPlace: false,
-      state: false
-    });
-    return;
-  }
-
-  Cep(`${cep}`)
-    .catch(() => {
-      setFieldError('cep', 'O CEP inserido é inválido');
+    if (navigator.onLine) {
       setFieldValue('district', '');
       setFieldValue('city', '');
       setFieldValue('publicPlace', '');
@@ -53,6 +38,26 @@ export const onBlurCep = (
         publicPlace: false,
         state: false
       });
+      return;
+    }
+  }
+
+  Cep(`${cep}`)
+    .catch(() => {
+      if (navigator.onLine) {
+        setFieldError('cep', 'O CEP inserido é inválido');
+        setFieldValue('district', '');
+        setFieldValue('city', '');
+        setFieldValue('publicPlace', '');
+        setFieldValue('state', '');
+        setHaveCep({
+          district: false,
+          city: false,
+          publicPlace: false,
+          state: false
+        });
+      }
+
       return;
     })
     .then((data: any) => {

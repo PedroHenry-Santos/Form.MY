@@ -8,7 +8,6 @@ import { useGlobalProcesses } from '../../hooks/useGlobalProcesses';
 import { database } from '../../services/firebase';
 import { validationSchema } from '../../utils/validationSchema';
 import { ButtonComponent } from '../ButtonComponent';
-import { GlobalAlertsComponents } from '../GlobalAlertsComponents';
 import { InputComponent } from '../InputComponent';
 import { OverlayComponent } from '../OverlayComponent';
 
@@ -115,8 +114,7 @@ export const FormComponent = () => {
 
   return (
     <form autoComplete="off">
-      <GlobalAlertsComponents />
-      <Grid templateColumns={{ md: 'repeat(5, 1fr)' }} gap={3}>
+      <Grid templateColumns={{ md: 'repeat(5, 1fr)' }} gap={2} mt={3}>
         <GridItem colSpan={{ md: 5 }}>
           <InputComponent
             id="name"
@@ -232,7 +230,7 @@ export const FormComponent = () => {
           />
         </GridItem>
       </Grid>
-      <Grid templateColumns="repeat(2, 1fr)" gap={3}>
+      <Grid templateColumns={{ md: 'repeat(2, 1fr)' }}>
         <ButtonComponent
           bg="green"
           type="button"
@@ -249,23 +247,23 @@ export const FormComponent = () => {
         >
           Limpar
         </ButtonComponent>
-        <OverlayComponent
-          title="Limpar campos?"
-          text="Tem certeza de que deseja descartar todas as suas alterações?"
-          onClose={Cleaning.onClose}
-          isOpen={Cleaning.isOpen}
-          bg="red"
-          handleFunction={formik.handleReset}
-        />
-        <OverlayComponent
-          title="Registrar cliente?"
-          text="Tem certeza de que deseja registrar as informações do cliente?"
-          onClose={Record.onClose}
-          isOpen={Record.isOpen}
-          bg="green"
-          handleFunction={formik.handleSubmit}
-        />
       </Grid>
+      <OverlayComponent
+        title="Limpar campos?"
+        text="Tem certeza de que deseja descartar todas as suas alterações?"
+        onClose={Cleaning.onClose}
+        isOpen={Cleaning.isOpen}
+        bg="red"
+        handleFunction={formik.handleReset}
+      />
+      <OverlayComponent
+        title="Registrar cliente?"
+        text="Tem certeza de que deseja registrar as informações do cliente?"
+        onClose={Record.onClose}
+        isOpen={Record.isOpen}
+        bg="green"
+        handleFunction={formik.handleSubmit}
+      />
     </form>
   );
 };

@@ -3,25 +3,19 @@
   "short_name": "For.MY",
   "icons": [
     {
-      "src": "/img/icon-128.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/img/icon-256.png",
-      "sizes": "256x256",
+      "src": "/img/android-chrome-192x192.png",
+      "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/img/icon-512.png",
+      "src": "android-chrome-512x512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
   ],
-  "background_color": "#48BB78",
+  "background_color": "#C6F6D5",
   "description": "Formulário para cadastro de clientes com persistência de dados utilizando o Firebase. Faça cadastros de maneira simples com funcionalidade 'offline'.",
   "start_url": "/",
   "display": "fullscreen",
-  "theme_color": "#B7791F"
+  "theme_color": "#ECC94B"
 }

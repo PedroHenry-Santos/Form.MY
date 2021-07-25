@@ -1,14 +1,6 @@
 import React from 'react';
 
-import {
-  Accordion,
-  AccordionProps,
-  Table,
-  Th,
-  Thead,
-  Tr
-} from '@chakra-ui/react';
-import { motion } from 'framer-motion';
+import { Accordion, Table, Th, Thead, Tr } from '@chakra-ui/react';
 
 import { useClient } from '../../hooks/useClient';
 import { AccordionComponent } from '../AccordionComponent';
@@ -20,28 +12,11 @@ type TableComponentsProps = {
 export const TableComponents = ({ mt }: TableComponentsProps) => {
   const { clients } = useClient();
 
-  const MotionAccordion = motion<AccordionProps>(Accordion);
-
-  const container = {
-    hidden: {
-      opacity: 0,
-      transition: {
-        staggerDirection: -1
-      }
-    },
-    show: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2
-      }
-    }
-  };
-
   return (
     <>
       <Table variant="unstyled" mt={mt}>
         <Thead>
-          <Tr bg="green.600" color="white">
+          <Tr color="gray.600">
             <Th fontSize="md" w="50%" fontWeight="bold">
               Nome
             </Th>
@@ -52,17 +27,11 @@ export const TableComponents = ({ mt }: TableComponentsProps) => {
         </Thead>
       </Table>
 
-      <MotionAccordion
-        allowToggle
-        w="full"
-        variants={container}
-        initial="hidden"
-        animate="show"
-      >
+      <Accordion allowMultiple w="full">
         {clients.map(client => {
           return <AccordionComponent key={client.id} data={client} />;
         })}
-      </MotionAccordion>
+      </Accordion>
     </>
   );
 };
