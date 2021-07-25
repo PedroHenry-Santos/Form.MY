@@ -1,4 +1,6 @@
-# For.MY
+<h1 align="center">
+  <img alt="Form.MY" title="For.MY" src=".github/assets/logo.png" />
+</h1>
 
 ![Badge](https://img.shields.io/github/license/PedroHenry-Santos/form?style=flat&label=LICENSE&color=FFC300&labelColor=000000)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/PedroHenry-Santos/form?style=flat&labelColor=000000&color=FFC300)
@@ -21,7 +23,7 @@
 [![husky](https://img.shields.io/badge/husky-dog.svg?labelColor=000000&color=42B983&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQEAQAAADlauupAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAAAGAAAABgAPBrQs8AAAAHdElNRQflBw0WIA/Xh8KtAAABhklEQVQ4y42TsUtCURTG73uIKA4NIrq4GDxpcHER2iTQQRQErcD2oj9ByDkcXiAN5SBugovgplP9BQ6uQUlDQyAKCRF6fw03eV5T69vud8859zvfOVeIFYBpwu0t8v0drq4cvlJRXK0GhiG2AVkosAqZSMDhocaRz6/mmFoFI5vVz7mcEGucyOVWTy5dQiAgNIHB4G+ZOqcXMF5f9ejRSAhzTeVotNb32RmMx9BoINNpp9f5HGlZEI3CfO74kkpBswmTCZRKAh4fnUvbhstLxZ2cOFM4PVXcxQXc3DiPPDwI6HadAh8f4PFsnRJer4pZotMRcHysjykSUcFHR9BqQa+HrFbB74f9fX3MxeKPD/W6Yp6fkS6X8mWx0IMHA+TeHry8KOL+fs1My1KvxOPw+ckmyHYb/H6kZW3ZRLcbhkN2QZ6fb19lymX+xHQKodCGZJ9Pd3iXCtve8BfCYWH4fOI/MA4ONigwTbi7g9kM3t7g+hoZi0EkApkMst+Hry/k0xMkk8u8b0y18Wulft5IAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDIxLTA3LTEzVDIyOjMyOjE0KzAwOjAw2yQVnwAAACV0RVh0ZGF0ZTptb2RpZnkAMjAyMS0wNy0xM1QyMjozMjoxNCswMDowMKp5rSMAAAAASUVORK5CYII=)](https://typicode.github.io/husky/#/)
 
 <div align="center">
-  <img src=".github/assets/demo.gif">
+  <img src=".github/assets/demo1.gif">
 </div>
 
 
@@ -35,7 +37,18 @@
 
 # :interrobang: Sobre o projeto
 
-Formulário para a o registro de clientes.
+Esse é um projeto de formulário para cadastro de clientes. Onde é utilizado o firestore do Firebase para persistência de dados, o que permite a utilização da aplicação mesmo “offline”. E quando for realizada a reconexão automaticamente os dados em memória transitória serão migrados.
+
+Nesse projeto foi utilizado grande parte dos recursos da biblioteca React sendo esse `useState`, `useEffect`, `useRef` e a `ContextAPI`. Também, foi utilizado a biblioteca Formik integrada com o Yup, inputmask e cep-promise para ajudar a lidar com as validações e estados dos campos do formulário. As principais validações são:
+
+ * Verificar se é um e-mail valido;
+ * Adiciona validação de tamanho mínimo de dígitos e mascara de formatação no telefone, CPF/CNPJ e CEP.
+ * Verificação de CPF/CNPJ é valido.
+ * Busca automática de endereço por CEP.
+
+Na parte de estilização foi utilizada a biblioteca de componentes Chakra UI, onde fornece componentes customizáveis, com acessibilidade e responsivos. Também foi utilizado animações utilizando o framer-motion. Toda a aplicação está 100% responsiva para todos os principais dispositivos. Além foi adicionado suporte PWA.
+
+
 
 ## 🧑‍💻 Tecnologias utilizadas
 
@@ -58,25 +71,39 @@ Formulário para a o registro de clientes.
 
 # :rocket: Executando a aplicação
 
-Primeiramente clone o repositório para sua maquina ou faça o 'download' em formato ZIP e descompacte. Para realizar a clonagem do repositório utilize o comando:
+Primeiramente clone o repositório para sua maquina ou faça o "download" em formato ZIP e descompacte. Para realizar a clonagem do repositório utilize o comando:
 
-    git clone git@github.com:PedroHenry-Santos/form-styled-typescript.git
+    git clone git@github.com:PedroHenry-Santos/form.git
 
-Após basta instalar as dependência utilizando o gerenciador de pacote de sua preferência. Conforme abaixo:
+Após basta instalar as dependências utilizando o gerenciador de pacote de sua preferência. Conforme abaixo:
 
     yarn install
+
+ou
+
+    npm install
 
 E utilizar o comando:
 
     yarn dev
 
-Agora você pode acessar [`localhost:3000`](http://localhost:3000) do seu navegador.
+ou
+
+    npm dev
+
+Agora você pode acessar [`localhost:3000`](http://localhost:3000) do seu navegador. Obs.: Os dados cadastrados podem ser acessados por todos, portanto no campo de CPF/CNPJ
+não informe o seu documento verdadeiro, utilize um valor "fake" gerado [aqui](https://www.geradordecpf.org/).
 
 # :mailbox: Para contribuir
 
 Caso queira ajudar a implementar novas funcionalidade nessa aplicação, poderá seguir o **roteiro de funcionalidades** a seguir. Ou também poderá propor sua própria funcionalidade.
 
 Para isso basta seguir o [roteiro](https://github.com/PedroHenry-Santos/form/blob/main/CONTRIBUTING.md) em CONTRIBUTING.
+
+## :heavy_check_mark: Roteiro de funcionalidade da aplicação
+
+Para um acompanhamento do que já foi ou será feito, click [aqui](https://github.com/PedroHenry-Santos/form/projects/1).
+
 ## :clock10: Histórico de atualizações
 
 Para saber sobre as [versões](https://github.com/PedroHenry-Santos/form/releases) deste código consulte o CHANGELOG detalhado.
