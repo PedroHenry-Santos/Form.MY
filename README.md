@@ -91,8 +91,9 @@ ou
 
     npm dev
 
-Agora você pode acessar [`localhost:3000`](http://localhost:3000) do seu navegador. Obs.: Os dados cadastrados podem ser acessados por todos, portanto no campo de CPF/CNPJ
-não informe o seu documento verdadeiro, utilize um valor "fake" gerado [aqui](https://www.geradordecpf.org/).
+Lembrando que será necessário criar uma conta no [Firebase](https://firebase.google.com/) e um [projeto](https://firebase.google.com/docs/web/setup) para disponibilizar o serviço do Firestore. Para isso basta criar um arquivo `.env` ou `.env.local` (crie as mesmas variáveis do arquivo `.env.example`) e coloque as credenciais do firebase.
+
+Agora você pode acessar [`localhost:3000`](http://localhost:3000) do seu navegador. **Obs.:** Os dados cadastrados podem ser **acessados por todos**, portanto no campo de CPF/CNPJ não informe o seu documento verdadeiro, utilize um valor "fake" gerando [aqui](https://www.geradordecpf.org/).
 
 # :mailbox: Para contribuir
 
